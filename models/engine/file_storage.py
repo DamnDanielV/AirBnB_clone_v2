@@ -10,14 +10,13 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is None:
+        if not cls:
             return FileStorage.__objects
-        else:
-            cl_dict = {}
-            for k, v in FileStorage.__objects.items():
-                if type(v) == cls:
-                    cl_dict[k] = v
-            return cl_dict
+        dt = {}
+        for key, obj in self.__objects.items():
+            if cls == obj.__class__ or cls == obj.__class__.__name__:
+                dt[key] = obj
+        return dt
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -52,17 +51,17 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
-        except FileNotFoundError:
+                    self.all()[key] = classes[val['__class__']](**val)
+        except:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects"""
-        if obj is None:
-            return
-        else:
-            for k in self.__objects:
-                if k.split(".")[1] == obj.id:
-                    self.__objects.pop(k)
-                    break
-            self.save()
+        """Deletes obj from __objects"""
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in FileStorage.__objects.keys():
+                del FileStorage.__objects[key]
+
+    def close(self):
+        """ Deserializing JSON file to objects """
+        self.reload()
