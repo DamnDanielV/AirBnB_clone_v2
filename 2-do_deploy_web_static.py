@@ -4,7 +4,7 @@ from fabric.api import *
 from datetime import datetime
 from os.path import isfile
 
-env.hosts = ['34.74.16.58', '35.196.98.184']
+env.hosts = ['34.74.16.58', '34.75.114.192']
 
 
 def do_pack():
@@ -32,11 +32,11 @@ def do_deploy(archive_path):
                 ff[:-4]))
             sudo('sudo rm ./{}'.format(ff))
         with cd('/data/web_static/'):
-            run('sudo mv releases/{}/web_static/* /data/web_static/releases/{}/'
-                .format(ff[:-4], ff[:-4]))
+            run('sudo mv releases/{}/web_static/* /data/web_static/releases/\
+                {}/'.format(ff[:-4], ff[:-4]))
             run('sudo rm -rf ./current')
-            run('sudo ln -s /data/web_static/releases/{}/ /data/web_static/current'
-                .format(ff[:-4]))
+            run('sudo ln -s /data/web_static/releases/{}/\
+                 /data/web_static/current'.format(ff[:-4]))
         return True
-    except:
+    except Exception:
         return False
