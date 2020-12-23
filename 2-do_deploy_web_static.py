@@ -24,6 +24,8 @@ def do_deploy(archive_path):
     if (isfile(archive_path) is False):
         return False
     ff = archive_path.split('/')[-1]
+    c2 = 'sudo mv releases/{}/web_static/* /data/web_static/releases/{}/'
+    c3 = 'sudo ln -s /data/web_static/releases/{}/ /data/web_static/current'
     try:
         put(archive_path, '/tmp/')
         run("sudo mkdir -p /data/web_static/releases/{}/".format(ff[:-4]))
@@ -32,11 +34,9 @@ def do_deploy(archive_path):
                 ff[:-4]))
             sudo('sudo rm ./{}'.format(ff))
         with cd('/data/web_static/'):
-            run('sudo mv releases/{}/web_static/* /data/web_static/releases/\
-                {}/'.format(ff[:-4], ff[:-4]))
+            run(c2.format(ff[:-4], ff[:-4]))
             run('sudo rm -rf ./current')
-            run('sudo ln -s /data/web_static/releases/{}/\
-                 /data/web_static/current'.format(ff[:-4]))
+            run(c3.format(ff[:-4]))
         return True
     except Exception:
         return False
