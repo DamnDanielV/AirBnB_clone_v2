@@ -4,10 +4,7 @@ from fabric.api import *
 from datetime import datetime
 from os.path import isfile
 
-env.use_ssh_config = True
-env.user = 'ubuntu'
 env.hosts = ['34.74.16.58', '35.196.98.184']
-env.key_fileff = '~/.ssh/holberton'
 
 
 def do_pack():
@@ -29,16 +26,16 @@ def do_deploy(archive_path):
     ff = archive_path.split('/')[-1]
     try:
         put(archive_path, '/tmp/')
-        run("mkdir -p /data/web_static/releases/{}/".format(ff[:-4]))
+        run("sudo mkdir -p /data/web_static/releases/{}/".format(ff[:-4]))
         with cd('/tmp/'):
-            run('tar xzf {} -C /data/web_static/releases/{}/'.format(ff,
+            run('sudo tar xzf {} -C /data/web_static/releases/{}/'.format(ff,
                 ff[:-4]))
-            sudo('rm ./{}'.format(ff))
+            sudo('sudo rm ./{}'.format(ff))
         with cd('/data/web_static/'):
-            run('mv releases/{}/web_static/* /data/web_static/releases/{}/'
+            run('sudo mv releases/{}/web_static/* /data/web_static/releases/{}/'
                 .format(ff[:-4], ff[:-4]))
-            run('rm -rf ./current')
-            run('ln -s /data/web_static/releases/{}/ /data/web_static/current'
+            run('sudo rm -rf ./current')
+            run('sudo ln -s /data/web_static/releases/{}/ /data/web_static/current'
                 .format(ff[:-4]))
         return True
     except:
