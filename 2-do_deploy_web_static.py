@@ -27,16 +27,19 @@ def do_deploy(archive_path):
     if (isfile(archive_path) is False):
         return False
     ff = archive_path.split('/')[-1]
-    put(archive_path, '/tmp/')
-    run("mkdir -p /data/web_static/releases/{}/".format(ff[:-4]))
-    with cd('/tmp/'):
-        run('tar xzf {} -C /data/web_static/releases/{}/'.format(ff,
-            ff[:-4]))
-        sudo('rm ./{}'.format(ff))
-    with cd('/data/web_static/'):
-        run('mv releases/{}/web_static/* /data/web_static/releases/{}/'
-            .format(ff[:-4], ff[:-4]))
-        run('rm -rf ./current')
-        run('ln -s /data/web_static/releases/{}/ /data/web_static/current'
-            .format(ff[:-4]))
-    return True
+    try:
+        put(archive_path, '/tmp/')
+        run("mkdir -p /data/web_static/releases/{}/".format(ff[:-4]))
+        with cd('/tmp/'):
+            run('tar xzf {} -C /data/web_static/releases/{}/'.format(ff,
+                ff[:-4]))
+            sudo('rm ./{}'.format(ff))
+        with cd('/data/web_static/'):
+            run('mv releases/{}/web_static/* /data/web_static/releases/{}/'
+                .format(ff[:-4], ff[:-4]))
+            run('rm -rf ./current')
+            run('ln -s /data/web_static/releases/{}/ /data/web_static/current'
+                .format(ff[:-4]))
+        return True
+    except:
+        return False
