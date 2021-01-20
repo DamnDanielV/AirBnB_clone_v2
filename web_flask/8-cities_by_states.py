@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""dfghjk ghjk ghjkaa"""
 from flask import Flask, render_template
 from models import storage
 app = Flask(__name__)
