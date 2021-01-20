@@ -32,7 +32,7 @@ def number_r(n):
 
 
 @app.route('/number_template/<int:n>')
-def tem_r(n=None):
+def tem_r(n):
     return render_template('5-number.html', n=n)
 
 
