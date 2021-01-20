@@ -10,8 +10,6 @@
                 {% for state in states | sort(attribute="name") %}
                     <li>{{state.id}}: <b>{{ state.name }}</b></li>
                 {%endfor%}
-
-                <li></li>
             </ul>
         {% elif state %}
             <h1>State: {{ state.name }}</h1>
