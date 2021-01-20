@@ -36,7 +36,7 @@ def tem_r(n=None):
     return render_template('5-number.html', n=n)
 
 
-@app.route('/number_odd_or_even/<n>')
+@app.route('/number_odd_or_even/<int:n>')
 def odd_even(n):
     if (int(n) % 2) == 0:
         text = 'even'
