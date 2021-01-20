@@ -18,7 +18,7 @@ def state_l():
 
 
 @app.route('/states/<id>')
-def state_id():
+def state_id(id):
     states = storage.all("State").values()
     for state in states:
         if state.id == id:
